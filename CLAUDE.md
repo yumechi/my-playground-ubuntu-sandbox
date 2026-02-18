@@ -11,11 +11,19 @@ Podman を使って Ubuntu のいろいろな機能を試すためのサンド�
 - Podman 4.9.3
 - Ubuntu 24.04 LTS (コンテナイメージ)
 
+## 禁止事項
+
+- curl、wget などによる外部通信は禁止
+- コンテナ内で外部 URL へのアクセスを行わないこと
+
 ## プロジェクト構成
 
 ```
 .
-├── Containerfile      # Ubuntu コンテナの定義ファイル
-├── CLAUDE.md          # Claude Code 用の設定ファイル
-└── README.md          # プロジェクトの説明
+├── Containerfile        # 基本の Ubuntu コンテナ
+├── Containerfile.timer  # systemd timer 検証用コンテナ
+├── CLAUDE.md            # Claude Code 用の設定ファイル
+├── README.md            # プロジェクトの説明
+└── docs/
+    └── systemd-timer.md # systemd timer の検証記録
 ```

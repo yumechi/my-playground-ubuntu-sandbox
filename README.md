@@ -42,6 +42,46 @@ podman stop ubuntu-sandbox
 podman rm ubuntu-sandbox
 ```
 
+## systemd timer 検証用コンテナ
+
+### イメージのビルド
+
+```bash
+podman build -f Containerfile.timer -t ubuntu-timer .
+```
+
+### コンテナの起動（systemd 有効）
+
+```bash
+podman run -d --name ubuntu-timer --privileged ubuntu-timer
+```
+
+### コンテナへのアクセス
+
+```bash
+podman exec -it ubuntu-timer /bin/bash
+```
+
+### timer の基本操作（コンテナ内で実行）
+
+```bash
+# timer 一覧を確認
+systemctl list-timers
+
+# timer の状態確認
+systemctl status <timer-name>.timer
+
+# timer の有効化
+systemctl enable --now <timer-name>.timer
+```
+
+### コンテナの停止・削除
+
+```bash
+podman stop ubuntu-timer
+podman rm ubuntu-timer
+```
+
 ## 参照しているツール/フレームワークのライセンス
 
 - Ubuntu: Various (GPL, LGPL, etc.)

@@ -1,0 +1,34 @@
+FROM ubuntu:24.04
+
+# 非対話モードを設定
+ENV DEBIAN_FRONTEND=noninteractive
+
+# systemd と基本ツールをインストール
+RUN apt-get update && apt-get install -y \
+    systemd \
+    systemd-sysv \
+    vim \
+    git \
+    sudo \
+    locales \
+    && rm -rf /var/lib/apt/lists/*
+
+# 日本語ロケールを設定
+RUN locale-gen ja_JP.UTF-8
+ENV LANG=ja_JP.UTF-8
+ENV LC_ALL=ja_JP.UTF-8
+
+# 不要な systemd サービスを無効化（コンテナ向け最適化）
+RUN systemctl mask \
+    dev-hugepages.mount \
+    sys-fs-fuse-connections.mount \
+    systemd-logind.service \
+    getty.target \
+    console-getty.service
+
+# 作業ディレクトリを設定
+WORKDIR /workspace
+
+# systemd を PID 1 として起動
+STOPSIGNAL SIGRTMIN+3
+CMD ["/sbin/init"]
